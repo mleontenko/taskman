@@ -8,6 +8,8 @@ class SingleProject extends Component {
         project: {},
         tasks: []
     }
+
+    this.handleMarkProjectAsCompleted = this.handleMarkProjectAsCompleted.bind(this)
     }
 
     componentDidMount () {
@@ -19,6 +21,13 @@ class SingleProject extends Component {
         tasks: response.data.tasks
         })
     })
+    }
+
+    handleMarkProjectAsCompleted () {
+        const { history } = this.props
+
+        axios.put(`/api/projects/${this.state.project.id}`)
+            .then(response => history.push('/'))
     }
 
     render () {
@@ -33,7 +42,10 @@ class SingleProject extends Component {
                 <div className='card-body'>
                 <p>{project.description}</p>
 
-                <button className='btn btn-primary btn-sm'>
+                <button
+                    className='btn btn-primary btn-sm'
+                    onClick={this.handleMarkProjectAsCompleted}
+                >
                     Mark as completed
                 </button>
 
